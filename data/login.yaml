@@ -1,0 +1,18 @@
+login_success:
+  - email: eve.holt@reqres.in
+    password: cityslicka
+    expect_code: 200
+  - email: eve.holt@reqres.in
+    password: '123456'
+    expect_code: 200
+
+login_fail:
+  - email: eve.holt@reqres.in
+    password: null
+    expect_code: 400
+  - email: eve.holt@req.in
+    password: cityslicka
+    expect_code: 400
+  - email: null
+    password: cityslicka
+    expect_code: 400

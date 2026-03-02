@@ -1,0 +1,12 @@
+registration_success:
+  - email: eve.holt@reqres.in
+    password: 45678
+    expect_code: 200
+  - email: eve.holt@reqres.in
+    password: 94381
+    expect_code: 200
+
+registration_fail:
+  email: eve.holt@reqres.in
+  password: null
+  expect_code: 400
