@@ -4,6 +4,7 @@ results/
 report.html
 logs/
 venv/
+ai_test/
 .env
 .idea/
 .vscode/
