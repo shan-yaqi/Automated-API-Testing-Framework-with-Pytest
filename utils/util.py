@@ -1,5 +1,6 @@
 import yaml
 import os
+import pytest
 import requests
 import logging
 from datetime import datetime
@@ -36,9 +37,9 @@ class RequestUtil:
             return data
 
     # @staticmethod
-    # def resquest_safe(method,url,data=None):
+    # def resquest_safe(method,url,datas=None):
     #     try:
-    #         response = RequestUtil.send_requests(method,url,data)
+    #         response = RequestUtil.send_requests(method,url,datas)
     #         if response.status_code == 200:
     #             return response
     #         elif response.status_code >= 500:

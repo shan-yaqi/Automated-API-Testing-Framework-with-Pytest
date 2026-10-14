@@ -1,0 +1,14 @@
+user_success:
+  - name: Ashish
+    job: Test Engineer
+    except_code: 201
+  - name: Jason
+    job: The Best Singer
+    except_code: 201
+  - name: Xiao Beidou
+    job: Student
+    except_code: 201
+user_fail:
+  - name:
+    job: Test Engineer
+    except_code: 201

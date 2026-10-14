@@ -5,7 +5,7 @@ requestUtil = RequestUtil()
 
 @allure.feature("注册成功")
 def test_successful_registration() :    # 注册成功
-    all_params = requestUtil.read_yaml(requestUtil.BASE_DIR + "/data/registration.yaml")
+    all_params = requestUtil.read_yaml(requestUtil.BASE_DIR + "/datas/registration.yaml")
     params = all_params.get('registration_success',[])
     for param in params :
         data = {
@@ -13,7 +13,7 @@ def test_successful_registration() :    # 注册成功
             'password': param['password']
         }
         response = requestUtil.send_requests("POST",requestUtil.BASEURL+'api/register',data)
-        # response = safe_post(url, header, data)
+        # response = safe_post(url, header, datas)
         responseJson = json.loads(response.text) # 将json字符串解析为python对象responseJson
         assert response.status_code == 200
         assert "token" in responseJson
@@ -22,7 +22,7 @@ def test_successful_registration() :    # 注册成功
 
 @allure.feature("注册失败")
 def test_unsuccessful_registration() :
-    all_params = requestUtil.read_yaml(requestUtil.BASE_DIR + "/data/registration.yaml")
+    all_params = requestUtil.read_yaml(requestUtil.BASE_DIR + "/datas/registration.yaml")
     params = all_params.get('registration_fail', [])
     data = {
         'email': params['email'],
@@ -37,7 +37,7 @@ def test_unsuccessful_registration() :
 
 @allure.feature("登录成功")
 def test_successful_login():
-    all_params = requestUtil.read_yaml(requestUtil.BASE_DIR + "/data/login.yaml")
+    all_params = requestUtil.read_yaml(requestUtil.BASE_DIR + "/datas/login.yaml")
     params = all_params.get('login_success', [])
     for param in params :
         data = {
@@ -53,7 +53,7 @@ def test_successful_login():
 
 @allure.feature("登录失败")
 def test_unsuccessful_login() :
-    all_params = requestUtil.read_yaml(requestUtil.BASE_DIR + "/data/login.yaml")
+    all_params = requestUtil.read_yaml(requestUtil.BASE_DIR + "/datas/login.yaml")
     params = all_params.get('login_fail', [])
     for param in params :
         data = {

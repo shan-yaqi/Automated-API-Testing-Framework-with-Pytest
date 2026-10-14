@@ -1,16 +1,17 @@
-import subprocess
 import os
+import subprocess
 from utils.util import RequestUtil
 RequestUtil = RequestUtil()
-
 
 # =========================
 # 基础路径配置
 # =========================
 # abspath dir(常量大写表示“全局配置”)
+
 RESULTS_DIR = os.path.join(os.path.join(RequestUtil.BASE_DIR,"results"),"results_data")
 REPORTS_DIR = os.path.join(os.path.join(RequestUtil.BASE_DIR, "results"),"reports_data")
 test_dir = os.path.join(RequestUtil.BASE_DIR,"tests")
+
 
 # If the required folder directories exist, and create them if they do not
 os.makedirs(RESULTS_DIR,exist_ok=True)
@@ -29,7 +30,7 @@ os.makedirs(REPORTS_DIR,exist_ok=True)
 def get_dirs_path(logger = None):
     """
     Define directories.
-    :return:The absolute paths of the result and report dir
+    :return:The absolute paths of the results and report dir
     """
     result_dir = os.path.join(RESULTS_DIR, f"result{RequestUtil.TIMESTAMP}")
     report_dir = os.path.join(REPORTS_DIR, f"report{RequestUtil.TIMESTAMP}")
@@ -43,7 +44,7 @@ def get_dirs_path(logger = None):
 
 def run_pytest(result_dir,logger = None):
     """
-    Run pytest and generate Allure test data.
+    Run pytest and generate Allure test datas.
     """
     logger.info(f"开始运行pytest，结果目录：{result_dir}")
     try:
@@ -63,8 +64,18 @@ def get_allure_report(result_dir,report_dir,logger=None,open_report=True):
     # subprocess.run(cmd, shell=True, check=True)
     logger.info(f"开始生成allure报告，报告目录：{report_dir}")
     try:
-        ret = os.system(f"allure generate {result_dir} -o {report_dir} --clean")
-        if ret != 0:
+        # ret = os.system(f"allure generate {result_dir} -o {report_dir} --clean")
+        ret = subprocess.run(
+            [
+                "allure.bat",
+                "generate",
+                result_dir,
+                "-o",
+                report_dir,
+                "--clean"
+            ]
+        )
+        if ret.returncode != 0:
             logger.error(f"生成报告失败，返回码：{ret}")
             return
         if open_report:
@@ -75,7 +86,7 @@ def get_allure_report(result_dir,report_dir,logger=None,open_report=True):
         else:
             logger.info(f"成功生成allure报告！")
     except Exception as e:
-        logger.error(f"生成或打开allure报告错误：{e}")
+        logger.error(f"未找到allure命令，请检查Allure是否安装以及PATH配置：{e}")
 
 
 def main():
