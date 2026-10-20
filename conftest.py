@@ -1,7 +1,18 @@
 import pytest
+import requests
 
 @pytest.fixture(scope="session")
-def login_data():
+def get_token():
+    resp = requests.post(
+        "https://reqres.in/api/login",
+        json={"email": "eve.holt@reqres.in", "password": "cityslicka"}
+    )
+    token = resp.json()["token"]
+    header = {
+            'Content-Type': 'application/json',
+            'x-api-key': token
+        }
+    yield header
     print("login_data被调用")
 
 # @pytest.fixture(scope='session')
