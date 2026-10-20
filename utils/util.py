@@ -17,17 +17,19 @@ class RequestUtil:
 
     os.makedirs(LOG_DIR, exist_ok=True)
 
-    @staticmethod
-    def send_requests(method,url,data=None):
-        header = {
-            'Content-Type': 'application/json',
-            'x-api-key': 'pub_50e4576a07d3a071e4d80ac14b4e94081a063005c265227806ff5fc562550d5f'
-        }
-        session = requests.Session()
-        if isinstance(data,dict):
-            response = session.request(method=method, url=url, headers=header, json=data)
+    # 长生命周期 Session：复用 TCP 连接池、保持 cookie
+    _session = requests.Session()
+    _session.headers.update({
+        'Content-Type': 'application/json',
+        'x-api-key': 'pub_50e4576a07d3a071e4d80ac14b4e94081a063005c265227806ff5fc562550d5f'
+    })
+
+    @classmethod
+    def send_requests(cls, method, url, data=None):
+        if isinstance(data, dict):
+            response = cls._session.request(method=method, url=url, json=data)
         else:
-            response = session.request(method=method, url=url, headers=header, data=data)
+            response = cls._session.request(method=method, url=url, data=data)
         return response
 
     @staticmethod

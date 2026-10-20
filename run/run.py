@@ -8,7 +8,6 @@ if _PROJECT_ROOT not in sys.path:
     sys.path.insert(0, _PROJECT_ROOT)
 
 from utils.util import RequestUtil
-RequestUtil = RequestUtil()
 
 # =========================
 # 基础路径配置

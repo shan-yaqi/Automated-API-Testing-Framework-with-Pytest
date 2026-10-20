@@ -11,4 +11,4 @@ user_success:
 user_fail:
   - name:
     job: Test Engineer
-    except_code: 201
+    except_code: 401
