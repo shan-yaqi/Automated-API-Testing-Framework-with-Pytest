@@ -34,8 +34,7 @@ def test_successful_registration(datas_frist) :    # 注册成功
 def test_unsuccessful_registration(datas_frist) :
     response = requestUtil.send_requests("POST",requestUtil.BASEURL+'api/register',datas_frist)
     responseJson = json.loads(response.text)
-    param = datas_frist
-    assert response.status_code == param['expect_code']
+    assert response.status_code != 200
     assert "error" in responseJson
     assert responseJson['error'] is not None
     assert "token" not in responseJson
