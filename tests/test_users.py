@@ -12,7 +12,7 @@ def test_create_success_user(datas):
     response = requestUtil.send_requests('POST',requestUtil.BASEURL \
                                          + 'api/users',datas)
     res = response.json()
-    a = datas["except_code"]
+    # a = datas["except_code"]
     assert response.status_code == datas['except_code']
     # assert res["id"] is not None
 # ********************************************************
