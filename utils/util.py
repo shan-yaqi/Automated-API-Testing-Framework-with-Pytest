@@ -1,8 +1,8 @@
 import yaml
 import os
+import logging
 import pytest
 import requests
-import logging
 from datetime import datetime
 from logging.handlers import RotatingFileHandler
 from utils.colors import ColoredFormatter
@@ -19,18 +19,28 @@ class RequestUtil:
 
     # 长生命周期 Session：复用 TCP 连接池、保持 cookie
     _session = requests.Session()
-    _session.headers.update({
-        'Content-Type': 'application/json',
-        'x-api-key': 'pub_50e4576a07d3a071e4d80ac14b4e94081a063005c265227806ff5fc562550d5f'
-    })
+
+    # @classmethod
+    # def send_requests(cls, method, url, data=None):
+    #     if isinstance(data, dict):
+    #         response = cls._session.request(method=method, url=url, json=data)
+    #     else:
+    #         response = cls._session.request(method=method, url=url, data=data)
+    #     return response  
 
     @classmethod
-    def send_requests(cls, method, url, data=None):
-        if isinstance(data, dict):
-            response = cls._session.request(method=method, url=url, json=data)
-        else:
-            response = cls._session.request(method=method, url=url, data=data)
-        return response
+    def send_requests(cls, method, url, data=None, logger=None):
+        header = {'Content-Type': 'application/json'}  
+        try:
+            response = cls._session.request(
+                method=method, url=url, headers=header,
+                json=data if isinstance(data, dict) else None,
+                timeout = 10                     
+            )
+            return response
+        except requests.RequestException as e:
+            logger.error(f"请求异常：{url},错误原因：{e}")
+            raise        
 
     @staticmethod
     def read_yaml(data_path):
