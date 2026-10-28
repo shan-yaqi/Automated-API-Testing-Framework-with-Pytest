@@ -42,3 +42,15 @@ def test_update_user():
     assert response.status_code == 200
     assert res['name'] == 'morpheus'
     assert res["job"] == 'zion resident'
+
+@allure.feature("更新用户")
+def test_update_user_patch():
+    resp = RequestUtil.send_requests("PATCH", RequestUtil.BASEURL + "api/users/2",
+                                     {"name": "Xinghe", "job": "QA"})
+    assert resp.status_code == 200
+    assert resp.json()["name"] == "Xinghe"      # 值对不对
+
+@allure.feature("查询未知用户")
+def test_get_unknown_user_404():
+    resp = RequestUtil.send_requests("GET", RequestUtil.BASEURL + "api/users/999", None)
+    assert resp.status_code == 404              # 门的反面
